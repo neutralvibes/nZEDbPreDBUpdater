@@ -3,15 +3,23 @@
 #designed to be ran from cron and not use the GITHUB API as nZEDb does not use authenticated
 #API calls causing your IP to be banned regularly
 
+# This bad boy takes a while to run first time, don't want it failing
+# and deleting the evidence.
+set -e
+
 HomeDir=$PWD
 
-#Change location of PHP (use where is PHP if not sure)
-# Eg...
-#   PHPEXE=/usr/bin/php
-#
+# Location of php file (Type whereis php if unsure)
+PHPEXE=/bin/php
 
-PHPEXE=/usr/bin/php
-
+#Test PHPEXE is a real file before doing anhything dude.
+if [ ! -f $PHPEXE ]
+   then
+    echo -e "\nNOT-PHP-EXECUTABLE, $PHPEXE"
+    echo -e "\nDude,\nYou need to edit me and change the PHPEXE variable to the location of php."
+    echo -e '\n\n'
+    exit 1
+fi
 
 #Check if initial run has been completed.
 if [ -f "BaseDirList.txt" ]
